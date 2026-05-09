@@ -1,0 +1,75 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "EFSAccess",
+      "Effect": "Allow",
+      "Action": [
+        "elasticfilesystem:ClientMount",
+        "elasticfilesystem:ClientWrite",
+        "elasticfilesystem:DescribeAccessPoints",
+        "elasticfilesystem:DescribeMountTargets",
+        "elasticfilesystem:DescribeFileSystems"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "S3FilesMount",
+      "Effect": "Allow",
+      "Action": [
+        "s3files:ClientMount",
+        "s3files:ClientWrite"
+      ],
+      "Resource": "arn:aws:s3files:us-east-1:632930644527:file-system/fs-000cb2840061e04fa",
+      "Condition": {
+        "ArnEquals": {
+          "s3files:AccessPointArn": "arn:aws:s3files:us-east-1:632930644527:file-system/fs-000cb2840061e04fa/access-point/fsap-042e1a297141bb8f0"
+        }
+      }
+    },
+    {
+      "Sid": "S3FilesControl",
+      "Effect": "Allow",
+      "Action": [
+        "s3files:GetAccessPoint",
+        "s3files:ListMountTargets",
+        "s3files:GetFileSystem",
+        "s3files:GetMountTarget"
+      ],
+      "Resource": [
+        "arn:aws:s3files:us-east-1:632930644527:file-system/fs-000cb2840061e04fa",
+        "arn:aws:s3files:us-east-1:632930644527:file-system/fs-000cb2840061e04fa/*"
+      ]
+    },
+    {
+      "Sid": "ECRAccess",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "BedrockModelAccess",
+      "Effect": "Allow",
+      "Action": [
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudWatchLogs",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

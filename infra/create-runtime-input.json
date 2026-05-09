@@ -1,0 +1,29 @@
+{
+  "agentRuntimeName": "agentcore-fs-demo",
+  "roleArn": "arn:aws:iam::632930644527:role/agentcore-fs-demo-execution-role",
+  "networkConfiguration": {
+    "networkMode": "VPC",
+    "networkModeConfig": {
+      "subnets": ["subnet-0b1b7db3a6600fbe1", "subnet-023880de85fb9261b"],
+      "securityGroups": ["sg-08d5925d7237c02db"]
+    }
+  },
+  "agentRuntimeArtifact": {
+    "containerConfiguration": {
+      "containerUri": "632930644527.dkr.ecr.us-east-1.amazonaws.com/bedrock-agentcore-agentcore-fs-demo:latest"
+    }
+  },
+  "filesystemConfigurations": [
+    {
+      "sessionStorage": {
+        "mountPath": "/mnt/workspace"
+      }
+    },
+    {
+      "efsAccessPoint": {
+        "accessPointArn": "arn:aws:elasticfilesystem:us-east-1:632930644527:access-point/fsap-0c1a42d3983842f9b",
+        "mountPath": "/mnt/datasets"
+      }
+    }
+  ]
+}

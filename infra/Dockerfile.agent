@@ -1,0 +1,50 @@
+# Dockerfile for the AgentCore Runtime coding agent container.
+#
+# This container runs inside the AgentCore Runtime microVM and includes
+# developer tools needed for shell command execution via
+# InvokeAgentRuntimeCommand.
+#
+# The hybrid filesystem mounts are handled by AgentCore Runtime automatically:
+#   /mnt/workspace  - Session Storage (managed)
+#   /mnt/datasets   - EFS Access Point
+#   /mnt/tools      - S3 Files Access Point
+
+FROM python:3.11-slim
+
+# Install developer tools that commands will depend on.
+# AgentCore Runtime microVMs don't include these by default.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    curl \
+    wget \
+    jq \
+    tree \
+    vim-tiny \
+    build-essential \
+    procps \
+    net-tools \
+    htop \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js (for coding agent use cases)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages for the agent
+COPY agent/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Copy agent code
+COPY agent/ /app/
+WORKDIR /app
+
+# AgentCore Runtime expects the agent on port 8080
+EXPOSE 8080
+
+# Health check endpoint
+HEALTHCHECK --interval=30s --timeout=5s \
+    CMD curl -f http://localhost:8080/ping || exit 1
+
+# Run the agent
+CMD ["python", "main.py"]
