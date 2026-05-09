@@ -2,12 +2,6 @@
 
 A full-stack demo showcasing **Amazon Bedrock AgentCore Runtime** hybrid filesystem configurations with multi-user shell access.
 
-## Live URLs
-
-- **Frontend**: https://d190psp42zgs69.cloudfront.net
-- **Backend API**: https://v11opo7s17.execute-api.us-east-1.amazonaws.com
-- **API Health**: https://v11opo7s17.execute-api.us-east-1.amazonaws.com/health
-
 ## Architecture
 
 ```
