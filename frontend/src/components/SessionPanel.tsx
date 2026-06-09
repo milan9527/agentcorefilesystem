@@ -158,7 +158,7 @@ export default function SessionPanel({
         <div style={styles.detailRow}>
           <span style={styles.detailLabel}>Session:</span>
           <code style={styles.detailValue}>
-            {currentSession.session_id.slice(0, 24)}...
+            {currentSession.session_id}
           </code>
         </div>
         <div style={styles.detailRow}>
@@ -313,6 +313,7 @@ const styles: Record<string, React.CSSProperties> = {
   detailValue: {
     color: "#a6adc8",
     fontSize: 11,
+    wordBreak: "break-all" as const,
   },
   stopBtn: {
     background: "#45475a",

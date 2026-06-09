@@ -70,7 +70,7 @@ export default function StorageInfo({ sessionId, userId }: StorageInfoProps) {
       <div style={styles.header}>
         <span style={styles.title}>💾 Hybrid Storage Layout</span>
         <span style={styles.subtitle}>
-          User: {userId} | Session: {sessionId.slice(0, 16)}...
+          User: {userId} | Session: {sessionId}
         </span>
       </div>
 
@@ -78,7 +78,7 @@ export default function StorageInfo({ sessionId, userId }: StorageInfoProps) {
         <pre style={styles.diagramText}>
 {`┌─────────────────────────────────────────────────┐
 │         AgentCore Runtime MicroVM                │
-│         (Session: ${sessionId.slice(0, 20)}...)  │
+│         (Session: ${sessionId})  │
 ├─────────────────────────────────────────────────┤
 │  /mnt/workspace  ← Session Storage [PRIVATE]    │
 │  /mnt/datasets   ← EFS             [SHARED]     │

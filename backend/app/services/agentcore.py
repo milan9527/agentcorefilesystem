@@ -54,14 +54,27 @@ class AgentCoreClient:
         Returns:
             Dict with the agent's response.
         """
-        payload = json.dumps({"prompt": prompt, "session_id": session_id})
+        import time
 
-        response = self._client.invoke_agent_runtime(
-            agentRuntimeArn=settings.agentcore_runtime_arn,
-            runtimeSessionId=session_id,
-            qualifier="DEFAULT",
-            payload=payload.encode("utf-8"),
-        )
+        payload = json.dumps({"prompt": prompt, "session_id": session_id})
+        max_retries = 3
+
+        for attempt in range(max_retries):
+            try:
+                response = self._client.invoke_agent_runtime(
+                    agentRuntimeArn=settings.agentcore_runtime_arn,
+                    runtimeSessionId=session_id,
+                    qualifier="DEFAULT",
+                    payload=payload.encode("utf-8"),
+                )
+                break
+            except Exception as e:
+                error_msg = str(e)
+                if "RuntimeClientError" in error_msg and "health check" in error_msg:
+                    if attempt < max_retries - 1:
+                        time.sleep(10)
+                        continue
+                raise
 
         # Read the streaming response
         body_parts = []
@@ -97,19 +110,33 @@ class AgentCoreClient:
         Returns:
             Dict with stdout, stderr, exit_code, and status.
         """
-        timeout = timeout or settings.default_command_timeout
+        import time
 
-        response = self._client.invoke_agent_runtime_command(
-            agentRuntimeArn=settings.agentcore_runtime_arn,
-            runtimeSessionId=session_id,
-            qualifier="DEFAULT",
-            contentType="application/json",
-            accept="application/vnd.amazon.eventstream",
-            body={
-                "command": f'/bin/bash -c "{command}"',
-                "timeout": min(timeout, settings.max_command_timeout),
-            },
-        )
+        timeout = timeout or settings.default_command_timeout
+        max_retries = 3
+
+        for attempt in range(max_retries):
+            try:
+                response = self._client.invoke_agent_runtime_command(
+                    agentRuntimeArn=settings.agentcore_runtime_arn,
+                    runtimeSessionId=session_id,
+                    qualifier="DEFAULT",
+                    contentType="application/json",
+                    accept="application/vnd.amazon.eventstream",
+                    body={
+                        "command": f'/bin/bash -c "{command}"',
+                        "timeout": min(timeout, settings.max_command_timeout),
+                    },
+                )
+                break
+            except Exception as e:
+                error_msg = str(e)
+                if "RuntimeClientError" in error_msg and "health check" in error_msg:
+                    if attempt < max_retries - 1:
+                        # Cold start — wait for microVM to provision and retry
+                        time.sleep(10)
+                        continue
+                raise
 
         stdout_parts = []
         stderr_parts = []
