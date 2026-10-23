@@ -1,0 +1,383 @@
+{
+  "runtime_arn": "arn:aws:bedrock-agentcore:us-east-1:632930644527:runtime/agentcore_fs_demo-vQv834FKFx",
+  "region": "us-east-1",
+  "session_id": "bench-193689d016ad402ea8e1fe497e8e6575",
+  "config": {
+    "duration_s": 30,
+    "block_size": 4096,
+    "file_size": 67108864,
+    "fsync": false,
+    "seed": 88172645463325252
+  },
+  "total_wall_clock_s": 411.4,
+  "results": [
+    {
+      "filesystem": "session",
+      "filesystem_label": "Session Storage",
+      "mount_path": "/mnt/workspace",
+      "workload": "seqwrite",
+      "wall_clock_s": 34.77,
+      "exit_code": 0,
+      "status": "COMPLETED",
+      "ok": true,
+      "metrics": {
+        "ops": 18248019,
+        "bytes": 74743885824,
+        "elapsed_s": 30,
+        "throughput_mibps": 2376.044,
+        "iops": 608267.3,
+        "latency_ms": {
+          "avg": 0.0012,
+          "p50": 0.0012,
+          "p95": 0.0014,
+          "p99": 0.0017,
+          "max": 36.1698,
+          "min": 0.0009
+        },
+        "ok": true,
+        "workload": "seqwrite",
+        "dir": "/mnt/workspace/.benchmark",
+        "block_size": 4096,
+        "file_size": 67108864,
+        "fsync": false,
+        "requested_duration_s": 30
+      }
+    },
+    {
+      "filesystem": "session",
+      "filesystem_label": "Session Storage",
+      "mount_path": "/mnt/workspace",
+      "workload": "seqread",
+      "wall_clock_s": 36.52,
+      "exit_code": 0,
+      "status": "COMPLETED",
+      "ok": true,
+      "metrics": {
+        "ops": 27081772,
+        "bytes": 110926938112,
+        "elapsed_s": 30,
+        "throughput_mibps": 3526.272,
+        "iops": 902725.73,
+        "latency_ms": {
+          "avg": 0.0008,
+          "p50": 0.0008,
+          "p95": 0.001,
+          "p99": 0.0013,
+          "max": 0.0648,
+          "min": 0.0007
+        },
+        "ok": true,
+        "workload": "seqread",
+        "dir": "/mnt/workspace/.benchmark",
+        "block_size": 4096,
+        "file_size": 67108864,
+        "fsync": false,
+        "requested_duration_s": 30
+      }
+    },
+    {
+      "filesystem": "session",
+      "filesystem_label": "Session Storage",
+      "mount_path": "/mnt/workspace",
+      "workload": "randwrite",
+      "wall_clock_s": 33.34,
+      "exit_code": 0,
+      "status": "COMPLETED",
+      "ok": true,
+      "metrics": {
+        "ops": 12492213,
+        "bytes": 51168104448,
+        "elapsed_s": 30,
+        "throughput_mibps": 1626.59,
+        "iops": 416407.1,
+        "latency_ms": {
+          "avg": 0.0018,
+          "p50": 0.0017,
+          "p95": 0.0019,
+          "p99": 0.0023,
+          "max": 0.0951,
+          "min": 0.0014
+        },
+        "ok": true,
+        "workload": "randwrite",
+        "dir": "/mnt/workspace/.benchmark",
+        "block_size": 4096,
+        "file_size": 67108864,
+        "fsync": false,
+        "requested_duration_s": 30
+      }
+    },
+    {
+      "filesystem": "session",
+      "filesystem_label": "Session Storage",
+      "mount_path": "/mnt/workspace",
+      "workload": "randread",
+      "wall_clock_s": 34.11,
+      "exit_code": 0,
+      "status": "COMPLETED",
+      "ok": true,
+      "metrics": {
+        "ops": 11995376,
+        "bytes": 49133060096,
+        "elapsed_s": 30,
+        "throughput_mibps": 1561.898,
+        "iops": 399845.87,
+        "latency_ms": {
+          "avg": 0.0018,
+          "p50": 0.0018,
+          "p95": 0.002,
+          "p99": 0.0021,
+          "max": 0.2225,
+          "min": 0.0014
+        },
+        "ok": true,
+        "workload": "randread",
+        "dir": "/mnt/workspace/.benchmark",
+        "block_size": 4096,
+        "file_size": 67108864,
+        "fsync": false,
+        "requested_duration_s": 30
+      }
+    },
+    {
+      "filesystem": "efs",
+      "filesystem_label": "Amazon EFS",
+      "mount_path": "/mnt/datasets",
+      "workload": "seqwrite",
+      "wall_clock_s": 35.15,
+      "exit_code": 0,
+      "status": "COMPLETED",
+      "ok": true,
+      "metrics": {
+        "ops": 18230708,
+        "bytes": 74672979968,
+        "elapsed_s": 30,
+        "throughput_mibps": 2373.79,
+        "iops": 607690.27,
+        "latency_ms": {
+          "avg": 0.0012,
+          "p50": 0.0011,
+          "p95": 0.0014,
+          "p99": 0.0016,
+          "max": 58.8165,
+          "min": 0.0009
+        },
+        "ok": true,
+        "workload": "seqwrite",
+        "dir": "/mnt/datasets/.benchmark",
+        "block_size": 4096,
+        "file_size": 67108864,
+        "fsync": false,
+        "requested_duration_s": 30
+      }
+    },
+    {
+      "filesystem": "efs",
+      "filesystem_label": "Amazon EFS",
+      "mount_path": "/mnt/datasets",
+      "workload": "seqread",
+      "wall_clock_s": 36.27,
+      "exit_code": 0,
+      "status": "COMPLETED",
+      "ok": true,
+      "metrics": {
+        "ops": 24058292,
+        "bytes": 98542764032,
+        "elapsed_s": 30,
+        "throughput_mibps": 3132.59,
+        "iops": 801943.07,
+        "latency_ms": {
+          "avg": 0.0009,
+          "p50": 0.0008,
+          "p95": 0.0013,
+          "p99": 0.0014,
+          "max": 29.1074,
+          "min": 0.0007
+        },
+        "ok": true,
+        "workload": "seqread",
+        "dir": "/mnt/datasets/.benchmark",
+        "block_size": 4096,
+        "file_size": 67108864,
+        "fsync": false,
+        "requested_duration_s": 30
+      }
+    },
+    {
+      "filesystem": "efs",
+      "filesystem_label": "Amazon EFS",
+      "mount_path": "/mnt/datasets",
+      "workload": "randwrite",
+      "wall_clock_s": 33.53,
+      "exit_code": 0,
+      "status": "COMPLETED",
+      "ok": true,
+      "metrics": {
+        "ops": 12454225,
+        "bytes": 51012505600,
+        "elapsed_s": 30,
+        "throughput_mibps": 1621.644,
+        "iops": 415140.83,
+        "latency_ms": {
+          "avg": 0.0017,
+          "p50": 0.0017,
+          "p95": 0.002,
+          "p99": 0.0022,
+          "max": 5.7499,
+          "min": 0.0014
+        },
+        "ok": true,
+        "workload": "randwrite",
+        "dir": "/mnt/datasets/.benchmark",
+        "block_size": 4096,
+        "file_size": 67108864,
+        "fsync": false,
+        "requested_duration_s": 30
+      }
+    },
+    {
+      "filesystem": "efs",
+      "filesystem_label": "Amazon EFS",
+      "mount_path": "/mnt/datasets",
+      "workload": "randread",
+      "wall_clock_s": 33.14,
+      "exit_code": 0,
+      "status": "COMPLETED",
+      "ok": true,
+      "metrics": {
+        "ops": 11816264,
+        "bytes": 48399417344,
+        "elapsed_s": 30,
+        "throughput_mibps": 1538.576,
+        "iops": 393875.47,
+        "latency_ms": {
+          "avg": 0.0019,
+          "p50": 0.0018,
+          "p95": 0.002,
+          "p99": 0.0021,
+          "max": 1.1444,
+          "min": 0.0014
+        },
+        "ok": true,
+        "workload": "randread",
+        "dir": "/mnt/datasets/.benchmark",
+        "block_size": 4096,
+        "file_size": 67108864,
+        "fsync": false,
+        "requested_duration_s": 30
+      }
+    },
+    {
+      "filesystem": "s3files",
+      "filesystem_label": "Amazon S3 Files",
+      "mount_path": "/mnt/tools",
+      "workload": "seqwrite",
+      "wall_clock_s": 34.98,
+      "exit_code": 0,
+      "status": "COMPLETED",
+      "ok": true,
+      "metrics": {
+        "ops": 18145874,
+        "bytes": 74325499904,
+        "elapsed_s": 30,
+        "throughput_mibps": 2362.744,
+        "iops": 604862.47,
+        "latency_ms": {
+          "avg": 0.0012,
+          "p50": 0.0012,
+          "p95": 0.0014,
+          "p99": 0.0016,
+          "max": 106.042,
+          "min": 0.0009
+        },
+        "ok": true,
+        "workload": "seqwrite",
+        "dir": "/mnt/tools/.benchmark",
+        "block_size": 4096,
+        "file_size": 67108864,
+        "fsync": false,
+        "requested_duration_s": 30
+      }
+    },
+    {
+      "filesystem": "s3files",
+      "filesystem_label": "Amazon S3 Files",
+      "mount_path": "/mnt/tools",
+      "workload": "seqread",
+      "wall_clock_s": 35.97,
+      "exit_code": 0,
+      "status": "COMPLETED",
+      "ok": true,
+      "metrics": {
+        "ops": 22947207,
+        "bytes": 93991759872,
+        "elapsed_s": 30,
+        "throughput_mibps": 2987.918,
+        "iops": 764906.9,
+        "latency_ms": {
+          "avg": 0.001,
+          "p50": 0.0009,
+          "p95": 0.0013,
+          "p99": 0.0015,
+          "max": 16.3117,
+          "min": 0.0006
+        },
+        "ok": true,
+        "workload": "seqread",
+        "dir": "/mnt/tools/.benchmark",
+        "block_size": 4096,
+        "file_size": 67108864,
+        "fsync": false,
+        "requested_duration_s": 30
+      }
+    },
+    {
+      "filesystem": "s3files",
+      "filesystem_label": "Amazon S3 Files",
+      "mount_path": "/mnt/tools",
+      "workload": "randwrite",
+      "wall_clock_s": 31.74,
+      "exit_code": 1,
+      "status": "COMPLETED",
+      "ok": false,
+      "metrics": {
+        "ok": false,
+        "workload": "randwrite",
+        "dir": "/mnt/tools/.benchmark",
+        "error": "OSError: [Errno 116] Stale file handle"
+      }
+    },
+    {
+      "filesystem": "s3files",
+      "filesystem_label": "Amazon S3 Files",
+      "mount_path": "/mnt/tools",
+      "workload": "randread",
+      "wall_clock_s": 31.72,
+      "exit_code": 0,
+      "status": "COMPLETED",
+      "ok": true,
+      "metrics": {
+        "ops": 5983763,
+        "bytes": 24509493248,
+        "elapsed_s": 30,
+        "throughput_mibps": 779.136,
+        "iops": 199458.77,
+        "latency_ms": {
+          "avg": 0.0043,
+          "p50": 0.0019,
+          "p95": 0.0021,
+          "p99": 0.0022,
+          "max": 32.8066,
+          "min": 0.0013
+        },
+        "ok": true,
+        "workload": "randread",
+        "dir": "/mnt/tools/.benchmark",
+        "block_size": 4096,
+        "file_size": 67108864,
+        "fsync": false,
+        "requested_duration_s": 30
+      }
+    }
+  ]
+}

@@ -7,11 +7,35 @@ Uses the Bedrock AgentCore data plane APIs:
 """
 
 import json
+import time
 import uuid
 
 import boto3
 
 from app.config import settings
+
+# API Gateway HTTP API cuts integrations off at 30s; keep retries well inside it.
+COLD_START_RETRY_BUDGET_SECONDS = 20
+COLD_START_RETRY_INTERVAL_SECONDS = 4
+
+
+def _call_with_cold_start_retry(fn, **kwargs):
+    """Call an AgentCore data plane API, retrying only while the microVM boots.
+
+    Application errors from the runtime (e.g. "Received error (500/502) from
+    runtime") are raised immediately — retrying them only burns time until
+    API Gateway times out with a 503.
+    """
+    deadline = time.monotonic() + COLD_START_RETRY_BUDGET_SECONDS
+    while True:
+        try:
+            return fn(**kwargs)
+        except Exception as e:
+            is_cold_start = "health check" in str(e)
+            if is_cold_start and time.monotonic() + COLD_START_RETRY_INTERVAL_SECONDS < deadline:
+                time.sleep(COLD_START_RETRY_INTERVAL_SECONDS)
+                continue
+            raise
 
 
 class AgentCoreClient:
@@ -54,27 +78,14 @@ class AgentCoreClient:
         Returns:
             Dict with the agent's response.
         """
-        import time
-
         payload = json.dumps({"prompt": prompt, "session_id": session_id})
-        max_retries = 3
-
-        for attempt in range(max_retries):
-            try:
-                response = self._client.invoke_agent_runtime(
-                    agentRuntimeArn=settings.agentcore_runtime_arn,
-                    runtimeSessionId=session_id,
-                    qualifier="DEFAULT",
-                    payload=payload.encode("utf-8"),
-                )
-                break
-            except Exception as e:
-                error_msg = str(e)
-                if "RuntimeClientError" in error_msg and "health check" in error_msg:
-                    if attempt < max_retries - 1:
-                        time.sleep(10)
-                        continue
-                raise
+        response = _call_with_cold_start_retry(
+            self._client.invoke_agent_runtime,
+            agentRuntimeArn=settings.agentcore_runtime_arn,
+            runtimeSessionId=session_id,
+            qualifier="DEFAULT",
+            payload=payload.encode("utf-8"),
+        )
 
         # Read the streaming response
         body_parts = []
@@ -110,33 +121,19 @@ class AgentCoreClient:
         Returns:
             Dict with stdout, stderr, exit_code, and status.
         """
-        import time
-
         timeout = timeout or settings.default_command_timeout
-        max_retries = 3
-
-        for attempt in range(max_retries):
-            try:
-                response = self._client.invoke_agent_runtime_command(
-                    agentRuntimeArn=settings.agentcore_runtime_arn,
-                    runtimeSessionId=session_id,
-                    qualifier="DEFAULT",
-                    contentType="application/json",
-                    accept="application/vnd.amazon.eventstream",
-                    body={
-                        "command": f'/bin/bash -c "{command}"',
-                        "timeout": min(timeout, settings.max_command_timeout),
-                    },
-                )
-                break
-            except Exception as e:
-                error_msg = str(e)
-                if "RuntimeClientError" in error_msg and "health check" in error_msg:
-                    if attempt < max_retries - 1:
-                        # Cold start — wait for microVM to provision and retry
-                        time.sleep(10)
-                        continue
-                raise
+        response = _call_with_cold_start_retry(
+            self._client.invoke_agent_runtime_command,
+            agentRuntimeArn=settings.agentcore_runtime_arn,
+            runtimeSessionId=session_id,
+            qualifier="DEFAULT",
+            contentType="application/json",
+            accept="application/vnd.amazon.eventstream",
+            body={
+                "command": f'/bin/bash -c "{command}"',
+                "timeout": min(timeout, settings.max_command_timeout),
+            },
+        )
 
         stdout_parts = []
         stderr_parts = []
